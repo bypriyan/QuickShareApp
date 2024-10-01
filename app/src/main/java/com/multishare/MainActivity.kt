@@ -18,6 +18,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         //this is for testing
+        //this is chintu
         setContent {
             TVMultishareTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
