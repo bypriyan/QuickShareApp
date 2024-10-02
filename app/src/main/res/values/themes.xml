@@ -2,11 +2,13 @@
 <resources>
 
     <style name="Theme.TVMultishare" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowDisablePreview">true</item>
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.SplashScreen" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowDisablePreview">true</item>
         <!-- Customize your splash screen background -->
         <item name="windowSplashScreenBackground">@color/white</item>
         <!-- Use an empty drawable for the splash icon -->
