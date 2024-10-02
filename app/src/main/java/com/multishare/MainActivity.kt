@@ -44,51 +44,5 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun SplashScreenContent() {
-    var showMainScreen by remember { mutableStateOf(false) }
-    val context = LocalContext.current
-
-    // Launch effect to wait for the splash screen
-    LaunchedEffect(key1 = true) {
-        // Simulate a loading process
-        delay(3000L) // 3-second delay for the splash screen
-        showMainScreen = true
-    }
-
-    if (showMainScreen) {
-        MainContent()
-    } else {
-        SplashScreen()
-    }
-}
-
-@Composable
-fun SplashScreen() {
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.splash))
-    val progress by animateLottieCompositionAsState(
-        composition = composition,
-        iterations = LottieConstants.IterateForever,
-        speed = 1.5f
-    )
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        LottieAnimation(
-            composition = composition,
-            progress = progress,
-            modifier = Modifier
-                .fillMaxSize() // Adjust size as needed
-        )
-    }
-}
-
-@Composable
-fun MainContent() {
-
-}
 
 
