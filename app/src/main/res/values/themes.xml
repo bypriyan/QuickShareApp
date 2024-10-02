@@ -2,4 +2,12 @@
 <resources>
 
     <style name="Theme.TVMultishare" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.SplashScreen" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Customize your splash screen background -->
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <!-- Use an empty drawable for the splash icon -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.TVMultishare</item>
+    </style>
 </resources>

@@ -84,7 +84,7 @@ dependencies {
     implementation (libs.annotations)
     implementation (libs.androidx.multidex)
     //lottie anim
-    implementation (libs.lottie.compose)
+    implementation ("com.airbnb.android:lottie-compose:6.5.2")
     //coroutines
     implementation(libs.kotlinx.coroutines.android)
 
