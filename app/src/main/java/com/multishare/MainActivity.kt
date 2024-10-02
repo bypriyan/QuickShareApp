@@ -36,6 +36,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         //this is for testing
+        //this is
+
         setContent {
             SplashScreenContent()
         }
@@ -86,17 +88,7 @@ fun SplashScreen() {
 
 @Composable
 fun MainContent() {
-    // Your main screen content goes here
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        // Display some text
-        androidx.compose.material3.Text(
-            text = "Welcome to the Main Screen!",
-            style = MaterialTheme.typography.headlineMedium
-        )
-    }
+
 }
 
 
