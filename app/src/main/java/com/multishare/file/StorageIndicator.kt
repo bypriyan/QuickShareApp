@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +20,8 @@ import com.multishare.file.FileSection
 import com.multishare.file.ProfileBarrier
 import com.multishare.R
 import com.multishare.file.getResponsiveDimension
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.Animatable
 
 @Composable
 fun StorageUsageScreen() {
@@ -31,9 +33,19 @@ fun StorageUsageScreen() {
     val usedSpace = usedBytes.toDouble() / (1024 * 1024 * 1024)
     val freeSpace = freeBytes.toDouble() / (1024 * 1024 * 1024)
 
-    // Use the responsive dimension function
     val boxHeight = getResponsiveDimension()
     val paddingValues = 10.dp
+
+    // State for animating the progress
+    val progressAnimatable = remember { Animatable(0f) }
+
+    LaunchedEffect(Unit) {
+        // Animate the progress from 0 to the used space over 2 seconds
+        progressAnimatable.animateTo(
+            targetValue = usedSpace.toFloat() / totalSpace.toFloat(),
+            animationSpec = tween(durationMillis = 2000)
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -70,7 +82,11 @@ fun StorageUsageScreen() {
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Spacer(modifier = Modifier.height(48.dp))
-                    Text("Your Device Storage", color = Color.White, fontSize = 15.sp, modifier = Modifier.padding(15.dp, 0.dp, 0.dp, 0.dp))
+                    Text("Your Device Storage",
+                        color = Color.White,
+                        fontSize = 15.sp,
+                        modifier = Modifier
+                            .padding(15.dp, 0.dp, 0.dp, 0.dp))
                 }
 
                 Column(
@@ -86,15 +102,15 @@ fun StorageUsageScreen() {
                             strokeWidth = 8.dp,
                             modifier = Modifier.size(boxHeight)
                         )
-                        // Foreground CircularProgressIndicator for used space
+                        // Foreground CircularProgressIndicator for used space with animation
                         CircularProgressIndicator(
-                            progress = usedSpace.toFloat() / totalSpace.toFloat(),
+                            progress = progressAnimatable.value,
                             color = Color.White,
                             strokeWidth = 8.dp,
                             modifier = Modifier.size(boxHeight)
                         )
                         Text(
-                            text = "${(usedSpace / totalSpace * 100).toInt()}%",
+                            text = "${(progressAnimatable.value * 100).toInt()}%",
                             fontSize = 24.sp,
                             color = Color.White
                         )
@@ -113,7 +129,7 @@ fun StorageUsageScreen() {
                                 .padding(horizontal = 1.dp)
                         )
                         LinearProgressIndicator(
-                            progress = usedSpace.toFloat() / totalSpace.toFloat(),
+                            progress = progressAnimatable.value,
                             color = Color.White,
                             modifier = Modifier
                                 .fillMaxWidth()

@@ -29,7 +29,7 @@ fun SplashScreenContent() {
 
     // Launch effect to wait for the splash screen
     LaunchedEffect(key1 = true) {
-        delay(300L) // 3-second delay for the splash screen
+        delay(3000L) // 3-second delay for the splash screen
         showMainScreen = true
     }
 
