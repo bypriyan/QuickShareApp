@@ -24,4 +24,10 @@
     <color name="yellow">#FFC107</color>
     <color name="skyBlue">#005cb9</color>
     <color name="appColor">#3165cc</color>
+    <color name="appSecoundryColor">#4D3165CC</color>
+
+    //progress color
+    <color name="progressLite">#35c4fc</color>
+    <color name="appLite">#3435C4FC</color>
+    <color name="progressDark">#3165cc</color>
 </resources>

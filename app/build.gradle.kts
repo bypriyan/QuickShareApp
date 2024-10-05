@@ -107,6 +107,9 @@ dependencies {
     implementation (libs.androidx.constraintlayout.compose)
 
     implementation (libs.kotlinx.coroutines.play.services)
+    //navigation
+    val nav_version = "2.8.2"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
 
 }
 

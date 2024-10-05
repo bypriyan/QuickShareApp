@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,15 +30,14 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.multishare.ui.home.homeScreen
 import com.multishare.ui.theme.TVMultishareTheme
 import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //this is for testing
-        //this is
-
+        installSplashScreen()
         setContent {
             SplashScreenContent()
         }
@@ -47,7 +48,6 @@ class MainActivity : ComponentActivity() {
 fun SplashScreenContent() {
     var showMainScreen by remember { mutableStateOf(false) }
     val context = LocalContext.current
-
     // Launch effect to wait for the splash screen
     LaunchedEffect(key1 = true) {
         // Simulate a loading process
@@ -56,7 +56,7 @@ fun SplashScreenContent() {
     }
 
     if (showMainScreen) {
-        MainContent()
+        homeScreen()
     } else {
         SplashScreen()
     }
@@ -73,7 +73,8 @@ fun SplashScreen() {
 
     Box(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(color = Color.White),
         contentAlignment = Alignment.Center
     ) {
         LottieAnimation(
@@ -83,11 +84,6 @@ fun SplashScreen() {
                 .fillMaxSize() // Adjust size as needed
         )
     }
-}
-
-@Composable
-fun MainContent() {
-
 }
 
 
