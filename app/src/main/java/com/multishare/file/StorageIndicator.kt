@@ -12,19 +12,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import android.os.Environment
 import android.os.StatFs
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialogDefaults.shape
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import coil.size.Size
-import com.multishare.FileSection
-import com.multishare.ProfileBarrier
+import com.multishare.file.FileSection
+import com.multishare.file.ProfileBarrier
 import com.multishare.R
-
-
+import com.multishare.file.getResponsiveDimension
 
 @Composable
 fun StorageUsageScreen() {
@@ -35,66 +30,68 @@ fun StorageUsageScreen() {
     val totalSpace = totalBytes.toDouble() / (1024 * 1024 * 1024)
     val usedSpace = usedBytes.toDouble() / (1024 * 1024 * 1024)
     val freeSpace = freeBytes.toDouble() / (1024 * 1024 * 1024)
-    val scrollState = rememberScrollState()
-    Column(modifier = Modifier.fillMaxSize().verticalScroll(scrollState)
-        .statusBarsPadding()) {
-         ProfileBarrier()
-            SearchBar { /* Handle search here */ }
+
+    // Use the responsive dimension function
+    val boxHeight = getResponsiveDimension()
+    val paddingValues = 10.dp
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .statusBarsPadding()
+    ) {
+        ProfileBarrier()
+        SearchBar { /* Handle search here */ }
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(10.dp) // Optional: Add padding around the box
+                .padding(paddingValues)
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-
                     .padding(1.dp)
                     .background(
                         brush = Brush.verticalGradient(
-                            colors =
-                            listOf(Color(0xFF005cb9),
-                                Color(0xFF21CBF3)),
-                            // Example gradient colors
+                            colors = listOf(Color(0xFF005cb9), Color(0xFF21CBF3)),
                             startY = 0f,
                             endY = Float.POSITIVE_INFINITY
                         ),
                         shape = RoundedCornerShape(16.dp)
                     )
-                    .padding(16.dp) // Inner padding for the content
+                    .padding(16.dp)
             ) {
                 Spacer(modifier = Modifier.height(68.dp))
                 Column(
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
-                )
-
-                {   Spacer(modifier = Modifier.height(48.dp),)
-                    Text("Your Device Storage", color = Color.White,fontSize = 15.sp,
-                        modifier = Modifier.padding(15.dp,0.dp,0.dp,0.dp)) }
+                ) {
+                    Spacer(modifier = Modifier.height(48.dp))
+                    Text("Your Device Storage", color = Color.White, fontSize = 15.sp, modifier = Modifier.padding(15.dp, 0.dp, 0.dp, 0.dp))
+                }
 
                 Column(
                     horizontalAlignment = Alignment.End,
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
-                )
-                {
+                ) {
                     Box(contentAlignment = Alignment.Center) {
                         // Background CircularProgressIndicator for remaining space
                         CircularProgressIndicator(
                             progress = 1f, // Show full circle
-                            color = colorResource(id=R.color.cGray), // Gray color for remaining space
+                            color = colorResource(id = R.color.cGray),
                             strokeWidth = 8.dp,
-                            modifier = Modifier.size(100.dp)
+                            modifier = Modifier.size(boxHeight)
                         )
                         // Foreground CircularProgressIndicator for used space
                         CircularProgressIndicator(
                             progress = usedSpace.toFloat() / totalSpace.toFloat(),
-                            color = Color.White, // Blue color for used space
+                            color = Color.White,
                             strokeWidth = 8.dp,
-                            modifier = Modifier.size(100.dp)
+                            modifier = Modifier.size(boxHeight)
                         )
                         Text(
                             text = "${(usedSpace / totalSpace * 100).toInt()}%",
@@ -107,9 +104,8 @@ fun StorageUsageScreen() {
 
                     // LinearProgressIndicator for remaining space in white
                     Box(modifier = Modifier.fillMaxWidth()) {
-                        // Remaining space LinearProgressIndicator
                         LinearProgressIndicator(
-                            progress = .1f, // This will fill the whole width
+                            progress = 1f, // This will fill the whole width
                             color = Color.White,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -130,8 +126,9 @@ fun StorageUsageScreen() {
 
                     // Row for displaying space information
                     Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp)
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(text = "Total space", color = Color.White)
@@ -152,7 +149,6 @@ fun StorageUsageScreen() {
             }
         }
 
-        FileSection()
+        FileSection() // This part remains unchanged
     }
-
 }

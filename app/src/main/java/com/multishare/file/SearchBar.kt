@@ -1,4 +1,3 @@
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -19,13 +18,14 @@ import androidx.compose.ui.res.colorResource
 import com.multishare.R
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
-
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier.fillMaxWidth(),
     onSearch: (String) -> Unit
 ) {
     val query = remember { mutableStateOf("") }
+
+    val padding = 10.dp
 
     OutlinedTextField(
         value = query.value,
@@ -42,9 +42,8 @@ fun SearchBar(
         ),
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
-            .shadow(10.dp,
-                RoundedCornerShape(50.dp)), // Add shadow for elevation
+            .padding(padding) // Use responsive padding
+            .shadow(10.dp, RoundedCornerShape(50.dp)),
         shape = RoundedCornerShape(50.dp),
         leadingIcon = {
             Icon(
@@ -53,10 +52,9 @@ fun SearchBar(
                 tint = Color.Black
             )
         },
-
-                colors = TextFieldDefaults.colors(
-            focusedContainerColor = colorResource(id = R.color.white), // Background color
-            unfocusedContainerColor = colorResource(id = R.color.white), // Background color
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = colorResource(id = R.color.white),
+            unfocusedContainerColor = colorResource(id = R.color.white),
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         )
