@@ -104,7 +104,18 @@ dependencies {
     //coil
     implementation(libs.coil.compose)
     //constraint layout
+<<<<<<< HEAD
     implementation(libs.androidx.constraintlayout.compose)
+=======
+    implementation (libs.androidx.constraintlayout.compose)
+
+    implementation (libs.kotlinx.coroutines.play.services)
+    //navigation
+    val nav_version = "2.8.2"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+    //
+    implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
+>>>>>>> 22f131bda8fd66212fd1f8e610b1ef3e1fc1bbdb
 
     implementation(libs.kotlinx.coroutines.play.services)
 }
