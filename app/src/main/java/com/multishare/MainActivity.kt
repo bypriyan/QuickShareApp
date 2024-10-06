@@ -32,8 +32,10 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.multishare.ui.home.homeScreen
 import com.multishare.ui.theme.TVMultishareTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,10 +50,8 @@ class MainActivity : ComponentActivity() {
 fun SplashScreenContent() {
     var showMainScreen by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    // Launch effect to wait for the splash screen
     LaunchedEffect(key1 = true) {
-        // Simulate a loading process
-        delay(3000L) // 3-second delay for the splash screen
+        delay(3000L)
         showMainScreen = true
     }
 

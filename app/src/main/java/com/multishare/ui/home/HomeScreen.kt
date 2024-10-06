@@ -15,18 +15,21 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Colors
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Shapes
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -35,13 +38,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
 import com.multishare.R
 import com.multishare.composable.circularProgressIndicator
 import com.multishare.composable.topAppBar
 
+
 @Composable
-fun homeScreen() {
+fun homeScreen(viewModel: StorageViewModel ) {
     val scrollState = rememberScrollState()
+
+
 
     Scaffold(
         modifier = Modifier
@@ -126,14 +133,35 @@ fun homeScreen() {
 
                 // send recive
 
-                Row (modifier = Modifier.fillMaxWidth().wrapContentHeight()
+                Row (modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
                     .padding(10.dp)){
+
+                    fileButton(painterResource(R.drawable.send),
+                        "Send",
+                        colorResource(R.color.appColor),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .wrapContentHeight()
+                            .padding(5.dp))
+
+                    fileButton(painterResource(R.drawable.recive_file),
+                        "Receive",
+                        colorResource(R.color.progressLite),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .wrapContentHeight()
+                            .padding(5.dp))
 
                 }
 
             }
 
-            Box(modifier = Modifier.fillMaxWidth()
+            Box(modifier = Modifier
+                .fillMaxWidth()
                 .background(color = colorResource(R.color.appColor))
                 .weight(0.1f),
                 contentAlignment = Alignment.Center
@@ -203,28 +231,41 @@ fun storageContent(title:String, storage:String){
 }
 
 @Composable
-fun fileButton(){
+fun fileButton(icon : Painter, buttonName:String, color: Color, modifier: Modifier){
     androidx.compose.material3.Card(
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(R.color.appColor)
+            containerColor = color
         ),
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(5.dp)
+        modifier = modifier
     ){
-        Column {
-            Image(painter = painterResource(R.drawable.send),
-                modifier = Modifier.size(50.dp),
-                contentDescription = "send img")
+        Column(
+            Modifier
+                .fillMaxWidth(),
+             horizontalAlignment = Alignment.CenterHorizontally ,// Aligns content horizontally to the center,
+            verticalArrangement = Arrangement.Center ){
+
+            Image(painter = icon,
+                modifier = Modifier.padding(10.dp)
+                    .size(50.dp),
+                contentDescription = "send img",
+                colorFilter = ColorFilter.tint(color = Color.White)
+            )
 
             Button(onClick = { },
-                colors =   ButtonDefaults.textButtonColors(),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = colorResource(R.color.white), // Change this to your desired background color
+                    contentColor = colorResource(R.color.black) // Change this to your desired text color
+                ),
+                modifier = Modifier.fillMaxWidth().padding(15.dp,0.dp,15.dp,10.dp),
+                shape = RoundedCornerShape(10.dp)
 
             ) {
-                Text("Filled",
-                    color = colorResource(R.color.black)
+                Text(buttonName,
+                    color = colorResource(R.color.black),
+                    fontFamily = FontFamily(
+                        Font(R.font.bold),
+                    )
+
                 )
             }
         }

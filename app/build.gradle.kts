@@ -110,6 +110,8 @@ dependencies {
     //navigation
     val nav_version = "2.8.2"
     implementation("androidx.navigation:navigation-compose:$nav_version")
+    //
+    implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
 
 }
 
