@@ -45,10 +45,8 @@ import com.multishare.composable.topAppBar
 
 
 @Composable
-fun homeScreen(viewModel: StorageViewModel ) {
+fun homeScreen(viewModel: StorageViewModel = hiltViewModel()) {
     val scrollState = rememberScrollState()
-
-
 
     Scaffold(
         modifier = Modifier
