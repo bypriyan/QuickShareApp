@@ -112,6 +112,8 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
     //
     implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
+    implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
+    kapt("androidx.hilt:hilt-compiler:1.2.0")
 
 }
 
