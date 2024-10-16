@@ -48,8 +48,6 @@ import com.multishare.composable.topAppBar
 fun homeScreen() {
     val scrollState = rememberScrollState()
 
-
-
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
