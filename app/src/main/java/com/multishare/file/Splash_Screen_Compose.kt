@@ -1,4 +1,9 @@
-package com.multishare
+package com.multishare.file
+
+
+
+
+import androidx.compose.foundation.layout.Arrangement
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -6,12 +11,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,6 +31,8 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.multishare.R
+import kotlinx.coroutines.delay
 import com.multishare.ui.home.homeScreen
 import com.multishare.ui.theme.TVMultishareTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +40,7 @@ import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
@@ -49,13 +53,17 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun SplashScreenContent() {
     var showMainScreen by remember { mutableStateOf(false) }
-    val context = LocalContext.current
+
+    // Launch effect to wait for the splash screen
     LaunchedEffect(key1 = true) {
-        delay(3000L)
+        delay(3000L) // 3-second delay for the splash screen
+
         showMainScreen = true
     }
 
     if (showMainScreen) {
+        MainContent()
+      
         homeScreen()
     } else {
         SplashScreen()
@@ -72,7 +80,7 @@ fun SplashScreen() {
     )
 
     Box(
-        modifier = Modifier
+        modifier = Modifier.fillMaxSize()
             .fillMaxSize()
             .background(color = Color.White),
         contentAlignment = Alignment.Center
@@ -80,11 +88,20 @@ fun SplashScreen() {
         LottieAnimation(
             composition = composition,
             progress = progress,
-            modifier = Modifier
-                .fillMaxSize() // Adjust size as needed
+            modifier = Modifier.fillMaxSize()
         )
     }
 }
 
+@Composable
+fun MainContent() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+    }
+}
 
 

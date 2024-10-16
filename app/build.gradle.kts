@@ -41,7 +41,6 @@ android {
     buildFeatures {
         compose = true
     }
-
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
@@ -115,7 +114,7 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
 
 }
-
+//
 //kapt {
 //    correctErrorTypes = true
 //}

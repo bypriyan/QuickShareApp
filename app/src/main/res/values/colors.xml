@@ -22,7 +22,11 @@
     <color name="red">#CB202D </color>
     <color name="orange">#FF8C00 </color>
     <color name="yellow">#FFC107</color>
-    <color name="skyBlue">#005cb9</color>
+
+    <color name="skyBlue">#005cb9</color>>
+    <color name="cBlue">#079BF4</color>
+    <color name="cGray">#DAD0EF</color>
+
     <color name="appColor">#3165cc</color>
     <color name="appSecoundryColor">#4D3165CC</color>
 
@@ -30,4 +34,5 @@
     <color name="progressLite">#35c4fc</color>
     <color name="appLite">#3435C4FC</color>
     <color name="progressDark">#3165cc</color>
+>>>>>>> 22f131bda8fd66212fd1f8e610b1ef3e1fc1bbdb
 </resources>
