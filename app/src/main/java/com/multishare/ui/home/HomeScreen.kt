@@ -43,12 +43,10 @@ import com.multishare.R
 import com.multishare.composable.circularProgressIndicator
 import com.multishare.composable.topAppBar
 
-
 @Composable
-fun homeScreen(viewModel: StorageViewModel ) {
+fun homeScreen() {
+    //
     val scrollState = rememberScrollState()
-
-
 
     Scaffold(
         modifier = Modifier

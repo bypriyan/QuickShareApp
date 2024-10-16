@@ -22,12 +22,11 @@
     <color name="red">#CB202D </color>
     <color name="orange">#FF8C00 </color>
     <color name="yellow">#FFC107</color>
-<<<<<<< HEAD
+
     <color name="skyBlue">#005cb9</color>>
     <color name="cBlue">#079BF4</color>
     <color name="cGray">#DAD0EF</color>
-=======
-    <color name="skyBlue">#005cb9</color>
+
     <color name="appColor">#3165cc</color>
     <color name="appSecoundryColor">#4D3165CC</color>
 
