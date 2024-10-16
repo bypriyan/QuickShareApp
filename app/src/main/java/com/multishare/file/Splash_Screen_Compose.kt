@@ -1,7 +1,7 @@
 package com.multishare.file
 
 
-import StorageUsageScreen
+
 
 import androidx.compose.foundation.layout.Arrangement
 
@@ -63,7 +63,7 @@ fun SplashScreenContent() {
 
     if (showMainScreen) {
         MainContent()
-        StorageUsageScreen()
+      
         homeScreen()
     } else {
         SplashScreen()
