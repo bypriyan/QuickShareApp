@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
+//    id("kotlin-kapt")
+//    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -69,9 +69,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    // hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+//    // hilt
+//    implementation(libs.hilt.android)
+//    kapt(libs.hilt.android.compiler)
     // Material Design 3
     implementation(libs.material3)
     implementation(libs.androidx.compose.material3.material3)
@@ -115,6 +115,6 @@ dependencies {
 
 }
 
-kapt {
-    correctErrorTypes = true
-}
+//kapt {
+//    correctErrorTypes = true
+//}
