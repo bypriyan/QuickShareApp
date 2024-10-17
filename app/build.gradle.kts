@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
+//    id("kotlin-kapt")
+//    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -69,43 +69,43 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    // hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+//    // hilt
+//    implementation(libs.hilt.android)
+//    kapt(libs.hilt.android.compiler)
     // Material Design 3
     implementation(libs.material3)
     implementation(libs.androidx.compose.material3.material3)
     implementation(libs.androidx.material)
 
     //splash screen api
-    implementation(libs.androidx.core.splashscreen)
+    implementation (libs.androidx.core.splashscreen)
     //multidex
-    implementation(libs.androidx.annotation)
-    implementation(libs.annotations)
-    implementation(libs.androidx.multidex)
+    implementation (libs.androidx.annotation)
+    implementation (libs.annotations)
+    implementation (libs.androidx.multidex)
     //lottie anim
-    implementation("com.airbnb.android:lottie-compose:6.5.2")
+    implementation ("com.airbnb.android:lottie-compose:6.5.2")
     //coroutines
     implementation(libs.kotlinx.coroutines.android)
 
     //mvvm
-    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation (libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.lifecycle.viewmodel.compose)
+    implementation (libs.lifecycle.viewmodel.compose)
     // Lifecycles only (without ViewModel or LiveData)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
 
     // LiveData
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.core.ktx)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
+    implementation (libs.androidx.lifecycle.runtime.ktx)
+    implementation (libs.androidx.core.ktx)
     //coil
     implementation(libs.coil.compose)
     //constraint layout
-    implementation(libs.androidx.constraintlayout.compose)
     implementation (libs.androidx.constraintlayout.compose)
+
     implementation (libs.kotlinx.coroutines.play.services)
     //navigation
     val nav_version = "2.8.2"
@@ -113,10 +113,8 @@ dependencies {
     //
     implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
 
-
-    implementation(libs.kotlinx.coroutines.play.services)
 }
-
-kapt {
-    correctErrorTypes = true
-}
+//
+//kapt {
+//    correctErrorTypes = true
+//}
