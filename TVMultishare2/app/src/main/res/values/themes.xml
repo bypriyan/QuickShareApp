@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+
+    <style name="Base.Theme.TVMultishare" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/appColor</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+
+
+    <style name="Theme.App.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.TVMultishare</item>
+    </style>
+
+
+<!--    <style name="Theme.TVMultishare" parent="Base.Theme.TVMultishare" />-->
+</resources>
