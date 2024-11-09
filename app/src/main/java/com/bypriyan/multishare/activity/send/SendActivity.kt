@@ -16,9 +16,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bypriyan.multishare.R
 import com.bypriyan.multishare.activity.homeScreen.StorageViewModel
+import com.bypriyan.multishare.activity.send.category.FileCategoryActivity
 import com.bypriyan.multishare.adapter.FileAdapter
 import com.bypriyan.multishare.databinding.ActivityMainBinding
 import com.bypriyan.multishare.databinding.ActivitySendBinding
@@ -72,6 +72,11 @@ class SendActivity : AppCompatActivity() {
             binding.circularProgressBarInternal?.progress = data.usagePercentage
             binding.progressTextInternal?.text = "${data.usagePercentage}%"
             binding.internalstorageText?.text = formatStorage(data.usedStorage, data.totalStorage)
+        }
+
+        //images
+        binding.imagesBtn?.setOnClickListener{
+            startActivity(Intent(this, FileCategoryActivity::class.java))
         }
     }
 

@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import android.location.Geocoder
 import com.bypriyan.multishare.activity.homeScreen.StorageRepository
 import com.bypriyan.multishare.activity.homeScreen.StorageRepositoryImpl
+import com.bypriyan.multishare.activity.send.category.ImageRepository
+import com.bypriyan.multishare.activity.send.category.ImageRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,4 +23,9 @@ object AppModule {
     fun provideStorageRepository(
         @ApplicationContext context: Context
     ): StorageRepository = StorageRepositoryImpl(context)
+
+    @Provides
+    fun provideImageRepository(@ApplicationContext context: Context): ImageRepository {
+        return ImageRepositoryImpl(context)
+    }
 }
