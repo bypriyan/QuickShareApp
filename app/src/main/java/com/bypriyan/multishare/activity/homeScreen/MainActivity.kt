@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.bypriyan.multishare.activity.recive.ReciveActivity
 import com.bypriyan.multishare.activity.send.SendActivity
 import com.bypriyan.multishare.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,6 +41,10 @@ class MainActivity : AppCompatActivity() {
         //send button
         binding.sendBtn.setOnClickListener {
             startActivity(Intent(this, SendActivity::class.java))
+        }
+
+        binding.reciveBtn.setOnClickListener{
+            startActivity(Intent(this, ReciveActivity::class.java))
         }
 
     }

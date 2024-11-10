@@ -43,12 +43,6 @@ class FileCategoryActivity : AppCompatActivity() {
             }
         }
 
-        // Set button listeners for file types
-        //viewModel.loadFiles(FileType.IMAGE)
-//        viewModel.loadFiles(FileType.VIDEO)
-        //viewModel.loadFiles(FileType.MUSIC)
-        //viewModel.loadFiles(FileType.DOCUMENT)
-        //viewModel.loadFiles(FileType.APK)
     }
 
     private fun checkStoragePermission() {
@@ -57,7 +51,7 @@ class FileCategoryActivity : AppCompatActivity() {
                 this,
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED -> {
-                viewModel.loadFiles(FileType.IMAGE)
+                loadFile()
             }
             else -> {
                 requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -69,9 +63,19 @@ class FileCategoryActivity : AppCompatActivity() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            viewModel.loadFiles(FileType.IMAGE)
+            loadFile()
         } else {
             Log.d("img", "Permission denied.")
+        }
+    }
+
+    fun loadFile(){
+        when(fileType){
+            "img"->viewModel.loadFiles(FileType.IMAGE)
+            "vid"->viewModel.loadFiles(FileType.VIDEO)
+            "mus"->viewModel.loadFiles(FileType.MUSIC)
+            "doc"->viewModel.loadFiles(FileType.DOCUMENT)
+            "apk"->viewModel.loadFiles(FileType.APK)
         }
     }
 }
