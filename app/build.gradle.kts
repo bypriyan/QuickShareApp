@@ -82,7 +82,8 @@ dependencies {
     //anim
     implementation ("com.flaviofaria:kenburnsview:1.0.7")
     //coil
-    implementation("io.coil-kt:coil:2.6.0")
+    implementation("io.coil-kt.coil3:coil-compose:3.0.2")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.2")
 
     //splash screen api
     implementation("androidx.core:core-splashscreen:1.0.1")

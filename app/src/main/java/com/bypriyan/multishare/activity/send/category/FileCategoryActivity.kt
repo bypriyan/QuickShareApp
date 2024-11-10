@@ -12,23 +12,30 @@ import com.bypriyan.multishare.databinding.ActivityFileCategoryBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import android.Manifest
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bypriyan.multishare.adapter.FileAdapter
 
 @AndroidEntryPoint
 class FileCategoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFileCategoryBinding
     private val viewModel: ImageViewModel by viewModels()
+    private lateinit var fileAdapter: FileAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFileCategoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //init
+        fileAdapter = FileAdapter(emptyList()) { imageModel, isSelected -> }
         checkStoragePermission()
 
         lifecycleScope.launch {
             viewModel.images.collect { images ->
-                Log.d("img", "Images: $images") // Logs the list of images
+                Log.d("img", "Images: $images")
+                fileAdapter = FileAdapter(images) { imageModel, isSelected -> }
+                binding.imagesRV.adapter = fileAdapter
             }
         }
     }

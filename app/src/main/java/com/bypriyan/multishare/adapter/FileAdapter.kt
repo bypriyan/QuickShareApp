@@ -5,16 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bypriyan.multishare.databinding.RowFilesBinding
 import com.bypriyan.multishare.model.FileData
+import coil3.load
+import com.bypriyan.multishare.R
+import com.bypriyan.multishare.model.ImageModel
 
 class FileAdapter(
-    private val fileList: List<FileData>,
-    private val onFileSelected: (FileData, Boolean) -> Unit // Callback for checkbox selection
+    private val fileList: List<ImageModel>,
+    private val onFileSelected: (ImageModel, Boolean) -> Unit // Callback for checkbox selection
 ) : RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
 
     inner class FileViewHolder(private val binding: RowFilesBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(fileData: FileData) {
-            // Load the thumbnail image
-            binding.image.setImageBitmap(fileData.thumbnail)
+        fun bind(fileData: ImageModel) {
+            // Load the thumbnail image using Coil
+            binding.image.load(fileData.imagePath)
 
             // Checkbox listener for selecting/unselecting files
             binding.checkbox.setOnCheckedChangeListener { _, isChecked ->
