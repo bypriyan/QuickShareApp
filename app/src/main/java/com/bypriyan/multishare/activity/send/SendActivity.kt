@@ -74,10 +74,32 @@ class SendActivity : AppCompatActivity() {
             binding.internalstorageText?.text = formatStorage(data.usedStorage, data.totalStorage)
         }
 
+
         //images
         binding.imagesBtn?.setOnClickListener{
-            startActivity(Intent(this, FileCategoryActivity::class.java))
+            catActivity("img")
         }
+        binding.videos?.setOnClickListener{
+            catActivity("vid")
+        }
+        binding.music?.setOnClickListener{
+            catActivity("mus")
+        }
+        binding.docs?.setOnClickListener{
+            catActivity("doc")
+        }
+        binding.downloads?.setOnClickListener{
+            catActivity("dow")
+        }
+        binding.apks?.setOnClickListener{
+            catActivity("apk")
+        }
+    }
+
+    fun catActivity(type:String){
+        var intent = Intent(this, FileCategoryActivity::class.java)
+        intent.putExtra("TYPE",type)
+        startActivity(intent)
     }
 
     private fun loadFiles() {

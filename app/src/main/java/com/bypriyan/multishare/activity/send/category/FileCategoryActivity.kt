@@ -21,23 +21,34 @@ class FileCategoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFileCategoryBinding
     private val viewModel: ImageViewModel by viewModels()
     private lateinit var fileAdapter: FileAdapter
+    private lateinit var fileType: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFileCategoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //init
         fileAdapter = FileAdapter(emptyList()) { imageModel, isSelected -> }
+        binding.imagesRV.adapter = fileAdapter
+        fileType = intent.getStringExtra("TYPE").toString()
+        Log.d("TAGs", "onCreate: $fileType")
+
         checkStoragePermission()
 
         lifecycleScope.launch {
-            viewModel.images.collect { images ->
-                Log.d("img", "Images: $images")
-                fileAdapter = FileAdapter(images) { imageModel, isSelected -> }
+            viewModel.files.collect { files ->
+                Log.d("Files", "Files: $files")
+                fileAdapter = FileAdapter(files) { imageModel, isSelected -> }
                 binding.imagesRV.adapter = fileAdapter
             }
         }
+
+        // Set button listeners for file types
+        //viewModel.loadFiles(FileType.IMAGE)
+//        viewModel.loadFiles(FileType.VIDEO)
+        //viewModel.loadFiles(FileType.MUSIC)
+        //viewModel.loadFiles(FileType.DOCUMENT)
+        //viewModel.loadFiles(FileType.APK)
     }
 
     private fun checkStoragePermission() {
@@ -46,7 +57,7 @@ class FileCategoryActivity : AppCompatActivity() {
                 this,
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED -> {
-                viewModel.loadImages()
+                viewModel.loadFiles(FileType.IMAGE)
             }
             else -> {
                 requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -58,7 +69,7 @@ class FileCategoryActivity : AppCompatActivity() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            viewModel.loadImages()
+            viewModel.loadFiles(FileType.IMAGE)
         } else {
             Log.d("img", "Permission denied.")
         }
