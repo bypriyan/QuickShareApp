@@ -35,28 +35,20 @@ class ImageRepositoryImpl(private val context: Context) : ImageRepository {
             FileType.APK -> MediaStore.Files.getContentUri("external") to arrayOf("application/vnd.android.package-archive")
         }
 
-        // Define projection to retrieve the ID and data (file path) columns
-        val projection = arrayOf(MediaStore.Files.FileColumns._ID, MediaStore.Files.FileColumns.DATA)
-
-        // Build selection based on MIME types provided for the file type
+        val projection = arrayOf(MediaStore.Files.FileColumns._ID)
         val selection = mimeTypes.joinToString(" OR ") { "${MediaStore.Files.FileColumns.MIME_TYPE} = ?" }
         val selectionArgs = mimeTypes
 
-        // Query the MediaStore with specified URI and selection criteria
         context.contentResolver.query(uri, projection, selection, selectionArgs, null)?.use { cursor ->
-            val dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA)
+            val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)
             while (cursor.moveToNext()) {
-                val path = cursor.getString(dataColumn)
-                val file = File(path)
-                if (file.exists()) {
-                    // Add each valid file to the list, setting file type in ImageModel
-                    files.add(ImageModel(files.size, path, Uri.fromFile(file), fileType.name))
-                }
+                val id = cursor.getLong(idColumn)
+                val contentUri = Uri.withAppendedPath(uri, id.toString())
+                files.add(ImageModel(files.size, contentUri.toString(), contentUri, fileType.name))
             }
         }
 
-        emit(files) // Emit the list of files
+        emit(files)
     }
 }
-
 

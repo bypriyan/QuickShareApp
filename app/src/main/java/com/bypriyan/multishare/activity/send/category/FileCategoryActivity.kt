@@ -12,6 +12,12 @@ import com.bypriyan.multishare.databinding.ActivityFileCategoryBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import android.Manifest
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.Settings
+import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bypriyan.multishare.adapter.FileAdapter
 
@@ -22,6 +28,8 @@ class FileCategoryActivity : AppCompatActivity() {
     private val viewModel: ImageViewModel by viewModels()
     private lateinit var fileAdapter: FileAdapter
     private lateinit var fileType: String
+
+    private lateinit var manageStoragePermissionLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,20 +51,41 @@ class FileCategoryActivity : AppCompatActivity() {
             }
         }
 
+        // Initialize ActivityResultLauncher for managing external storage permission
+        manageStoragePermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && Environment.isExternalStorageManager()) {
+                loadFile()
+            } else {
+                Log.d("img", "Manage External Storage permission denied.")
+            }
+        }
     }
 
     private fun checkStoragePermission() {
-        when {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED -> {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (Environment.isExternalStorageManager()) {
                 loadFile()
+            } else {
+                requestManageExternalStoragePermission()
             }
-            else -> {
+        } else {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                loadFile()
+            } else {
                 requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
         }
+    }
+
+    private fun requestManageExternalStoragePermission() {
+        val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, Uri.parse("package:$packageName"))
+        manageStoragePermissionLauncher.launch(intent)
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -69,13 +98,14 @@ class FileCategoryActivity : AppCompatActivity() {
         }
     }
 
-    fun loadFile(){
-        when(fileType){
-            "img"->viewModel.loadFiles(FileType.IMAGE)
-            "vid"->viewModel.loadFiles(FileType.VIDEO)
-            "mus"->viewModel.loadFiles(FileType.MUSIC)
-            "doc"->viewModel.loadFiles(FileType.DOCUMENT)
-            "apk"->viewModel.loadFiles(FileType.APK)
+    fun loadFile() {
+        when (fileType) {
+            "img" -> viewModel.loadFiles(FileType.IMAGE)
+            "vid" -> viewModel.loadFiles(FileType.VIDEO)
+            "mus" -> viewModel.loadFiles(FileType.MUSIC)
+            "doc" -> viewModel.loadFiles(FileType.DOCUMENT)
+            "apk" -> viewModel.loadFiles(FileType.APK)
         }
     }
 }
+
