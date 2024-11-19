@@ -15,14 +15,12 @@ class FileAdapter(
     private val fileList: List<ImageModel>,
     private val onFileSelected: (ImageModel, Boolean) -> Unit // Callback for checkbox selection
 ) : RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
-
     inner class FileViewHolder(private val binding: RowFilesBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(fileData: ImageModel) {
-            // Log the file path to verify it's correct
             Log.d("FileAdapter", "Loading image from URI: ${fileData.fileUri}")
 
-            // Load the image using Coil with error handling
-            binding.image.load(fileData.fileUri) { // Use the URI from ImageModel
+            // Load the image
+            binding.image.load(fileData.fileUri) {
                 listener(
                     onError = { _, _ ->
                         Log.e("FileAdapter", "Failed to load image: ${fileData.filePath}")
@@ -33,12 +31,16 @@ class FileAdapter(
                 )
             }
 
-            // Checkbox listener for selecting/unselecting files
+            // Ensure checkbox reflects the correct state
+            binding.checkbox.setOnCheckedChangeListener(null) // Remove old listener
+            binding.checkbox.isChecked = fileData.isSelected // Set checkbox state
             binding.checkbox.setOnCheckedChangeListener { _, isChecked ->
-                onFileSelected(fileData, isChecked)
+                fileData.isSelected = isChecked
+                onFileSelected(fileData, isChecked) // Callback for state changes
             }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileViewHolder {
         val binding = RowFilesBinding.inflate(LayoutInflater.from(parent.context), parent, false)

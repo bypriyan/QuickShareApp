@@ -7,5 +7,6 @@ data class ImageModel(
     val id: Int,
     val filePath: String,
     val fileUri: Uri,
-    val fileType: String // e.g., "image", "video", "audio", "document"
+    val fileType: String ,// e.g., "image", "video", "audio", "document"
+    var isSelected: Boolean = false
 )
