@@ -1,5 +1,6 @@
 package com.bypriyan.multishare.activity.send.category
 
+import FileAdapter
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -19,7 +20,6 @@ import android.os.Environment
 import android.provider.Settings
 import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bypriyan.multishare.adapter.FileAdapter
 
 @AndroidEntryPoint
 class FileCategoryActivity : AppCompatActivity() {

@@ -19,7 +19,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.bypriyan.multishare.R
 import com.bypriyan.multishare.activity.homeScreen.StorageViewModel
 import com.bypriyan.multishare.activity.send.category.FileCategoryActivity
-import com.bypriyan.multishare.adapter.FileAdapter
 import com.bypriyan.multishare.databinding.ActivityMainBinding
 import com.bypriyan.multishare.databinding.ActivitySendBinding
 import com.bypriyan.multishare.viewmodel.FileViewModel
