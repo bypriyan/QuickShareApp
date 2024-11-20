@@ -1,53 +1,89 @@
+import android.graphics.Bitmap
+import android.media.MediaMetadataRetriever
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
+import coil3.request.crossfade
 import com.bypriyan.multishare.R
 import com.bypriyan.multishare.databinding.RowFilesBinding
 import com.bypriyan.multishare.model.ImageModel
+import kotlinx.coroutines.*
 
 class FileAdapter(
     private var fileList: List<ImageModel>,
     private val onFileSelected: (ImageModel, Boolean) -> Unit
 ) : RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
 
+    private val scope = CoroutineScope(Dispatchers.Main + Job()) // Scope for async tasks
+
     inner class FileViewHolder(private val binding: RowFilesBinding) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(fileData: ImageModel) {
-            // Handle different file types and load thumbnails accordingly
+            // Handle different file types and load thumbnails
             when (fileData.fileType) {
                 "IMAGE" -> {
+                    // Load image thumbnail using Coil
                     binding.image.load(fileData.fileUri) {
-                        listener(
-                            onError = { _, _ ->
-                                binding.image.setImageResource(R.drawable.logo)
-                            }
-                        )
+                        crossfade(true)
+                        listener(onError = { _, _ -> binding.image.setImageResource(R.drawable.logo) })
                     }
                 }
                 "VIDEO" -> {
-                    // Load the video thumbnail if available
-                    val thumbnailUri = fileData.thumbnailUri
-                    if (thumbnailUri != null) {
-                        binding.image.load(thumbnailUri) {
-                            listener(
-                                onError = { _, _ ->
-                                    binding.image.setImageResource(R.drawable.logo)
-                                }
-                            )
+                    // Use cached Bitmap or generate asynchronously
+                    if (fileData.thumbnailBitmap != null) {
+                        binding.image.load(fileData.thumbnailBitmap) {
+                            crossfade(true)
                         }
                     } else {
-                        // Fallback if no thumbnail
-                        binding.image.setImageResource(R.drawable.logo)
+                        loadVideoThumbnailAsync(fileData)
                     }
+                }
+                else -> {
+                    // Handle other file types or use a default fallback
+                    binding.image.setImageResource(R.drawable.logo)
                 }
             }
 
-            // Ensure checkbox reflects the correct state
-            binding.checkbox.setOnCheckedChangeListener(null)  // Remove the old listener
-            binding.checkbox.isChecked = fileData.isSelected  // Set checkbox state
+            // Checkbox handling
+            binding.checkbox.setOnCheckedChangeListener(null) // Remove previous listeners
+            binding.checkbox.isChecked = fileData.isSelected // Set current state
             binding.checkbox.setOnCheckedChangeListener { _, isChecked ->
-                fileData.isSelected = isChecked
-                onFileSelected(fileData, isChecked)  // Callback for state changes
+                if (fileData.isSelected != isChecked) {
+                    fileData.isSelected = isChecked
+                    onFileSelected(fileData, isChecked) // Callback for selection state
+                }
+            }
+        }
+
+        private fun loadVideoThumbnailAsync(fileData: ImageModel) {
+            binding.image.setImageResource(R.drawable.logo) // Set placeholder immediately
+            scope.launch {
+                val bitmap = withContext(Dispatchers.IO) {
+                    generateVideoThumbnail(fileData.fileUri)
+                }
+                if (bitmap != null) {
+                    fileData.thumbnailBitmap = bitmap // Cache generated thumbnail
+                    binding.image.load(bitmap) {
+                        crossfade(true)
+                    }
+                } else {
+                    binding.image.setImageResource(R.drawable.logo) // Fallback
+                }
+            }
+        }
+
+        private fun generateVideoThumbnail(uri: Uri): Bitmap? {
+            val retriever = MediaMetadataRetriever()
+            return try {
+                retriever.setDataSource(itemView.context, uri)
+                retriever.getFrameAtTime(1000000) // Get the frame at 1 second
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            } finally {
+                retriever.release()
             }
         }
     }
@@ -63,8 +99,14 @@ class FileAdapter(
 
     override fun getItemCount(): Int = fileList.size
 
-    fun updateFiles(newFileList: List<ImageModel>) {
+    // Update the adapter's file list and refresh the RecyclerView
+    fun updateFileList(newFileList: List<ImageModel>) {
         fileList = newFileList
         notifyDataSetChanged()
+    }
+
+    // Clean up coroutine resources when adapter is no longer in use
+    fun clear() {
+        scope.cancel()
     }
 }

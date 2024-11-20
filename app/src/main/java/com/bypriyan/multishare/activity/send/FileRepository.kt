@@ -2,6 +2,7 @@ package com.bypriyan.multishare.activity.send
 import com.bypriyan.multishare.model.FileData
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
 import android.media.ThumbnailUtils
 import android.provider.MediaStore
 import android.util.Log
@@ -44,18 +45,26 @@ class FileRepository @Inject constructor() {
             "apk" -> FileType.APK
             else -> FileType.OTHER
         }
-    }
-
-    private fun generateThumbnail(file: File, fileType: FileType): Bitmap? {
+    }private fun generateThumbnail(file: File, fileType: FileType): Bitmap? {
         return when (fileType) {
-            FileType.IMAGE -> BitmapFactory.decodeFile(file.absolutePath)?.also {
-                Log.d("TAG", "Generated image thumbnail for ${file.name}")
+            FileType.IMAGE -> {
+                BitmapFactory.decodeFile(file.absolutePath)?.also {
+                    Log.d("TAG", "Generated image thumbnail for ${file.name}")
+                }
             }
-            FileType.VIDEO -> ThumbnailUtils.createVideoThumbnail(
-                file.absolutePath,
-                MediaStore.Images.Thumbnails.MINI_KIND
-            )?.also {
-                Log.d("TAG", "Generated video thumbnail for ${file.name}")
+            FileType.VIDEO -> {
+                val retriever = MediaMetadataRetriever()
+                try {
+                    retriever.setDataSource(file.absolutePath)
+                    retriever.getFrameAtTime(0)?.also {
+                        Log.d("TAG", "Generated video thumbnail for ${file.name}")
+                    }
+                } catch (e: Exception) {
+                    Log.e("TAG", "Failed to generate video thumbnail for ${file.name}", e)
+                    null
+                } finally {
+                    retriever.release()
+                }
             }
             else -> null
         }

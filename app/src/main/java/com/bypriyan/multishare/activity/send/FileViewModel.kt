@@ -2,10 +2,13 @@
 package com.bypriyan.multishare.viewmodel
 
 import android.app.Application
+import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.ThumbnailUtils
+import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.bypriyan.multishare.model.FileData
@@ -46,3 +49,28 @@ class FileViewModel(application: Application) : AndroidViewModel(application) {
         recentFiles.postValue(fileDataList ?: emptyList())
     }
 }
+
+// Function to get video thumbnail URI
+fun getVideoThumbnailUri(contentResolver: ContentResolver, videoUri: Uri): Uri? {
+    try {
+        val projection = arrayOf(MediaStore.Images.Thumbnails.DATA)
+        val cursor = contentResolver.query(
+            MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+            projection,
+            "${MediaStore.Video.Media._ID} = ?",
+            arrayOf(videoUri.lastPathSegment),
+            null
+        )
+        cursor?.let {
+            if (it.moveToFirst()) {
+                val thumbnailPath = it.getString(it.getColumnIndex(MediaStore.Images.Thumbnails.DATA))
+                it.close()
+                return Uri.parse(thumbnailPath)
+            }
+        }
+    } catch (e: Exception) {
+        Log.e("ThumbnailError", "Error retrieving video thumbnail", e)
+    }
+    return null
+}
+

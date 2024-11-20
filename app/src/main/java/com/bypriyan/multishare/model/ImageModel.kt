@@ -1,14 +1,14 @@
 package com.bypriyan.multishare.model
 
+import android.graphics.Bitmap
 import android.net.Uri
-import coil3.Bitmap
 
-// ImageModel.kt
 data class ImageModel(
     val id: Int,
-    val filePath: String,
-    val fileUri: Uri,
-    val fileType: String ,// e.g., "image", "video", "audio", "document"
-    var isSelected: Boolean = false,
-    val thumbnailUri: Uri ?= null
+    val filePath: String,       // Full file path on the device
+    val fileUri: Uri,           // URI of the file
+    val fileType: String,       // e.g., "image", "video", "audio", "document"
+    var isSelected: Boolean = false, // Selection state
+    val thumbnailUri: Uri? = null,   // Thumbnail URI (for images or cached videos)
+    var thumbnailBitmap: Bitmap? = null // Bitmap for video thumbnails
 )
