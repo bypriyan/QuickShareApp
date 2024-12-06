@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
 
-    <style name="Base.Theme.TVMultishare" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.TVMultishare" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:statusBarColor">@color/appColor</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>

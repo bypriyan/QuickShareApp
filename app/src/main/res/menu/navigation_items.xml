@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view">
+<item android:id="@+id/about"
+    android:icon="@drawable/baseline_person_24"
+    android:title="About"/>
+
+    <item android:id="@+id/contact"
+        android:icon="@drawable/contacts_icon"
+    android:title="Contact"/>
+
+    <item android:id="@+id/privacy"
+        android:icon="@drawable/baseline_security_24"
+    android:title="Privacy"/>
+
+    <item android:id="@+id/guide"
+        android:icon="@drawable/baseline_question_mark_24"
+    android:title="Guide"/>
+
+</menu>

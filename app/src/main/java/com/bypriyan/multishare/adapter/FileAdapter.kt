@@ -1,4 +1,5 @@
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.view.LayoutInflater
@@ -40,9 +41,18 @@ class FileAdapter(
                         loadVideoThumbnailAsync(fileData)
                     }
                 }
+                "MUSIC" -> {
+                    // Load music album art thumbnail
+                    if (fileData.albumArtBitmap != null) {
+                        binding.image.load(fileData.albumArtBitmap) {
+                            crossfade(true)
+                        }
+                    } else {
+                        loadMusicThumbnailAsync(fileData)
+                    }
+                }
                 else -> {
-                    // Handle other file types or use a default fallback
-                    binding.image.setImageResource(R.drawable.logo)
+                    binding.image.setImageResource(R.drawable.logo) // Fallback for other types
                 }
             }
 
@@ -79,6 +89,41 @@ class FileAdapter(
             return try {
                 retriever.setDataSource(itemView.context, uri)
                 retriever.getFrameAtTime(1000000) // Get the frame at 1 second
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            } finally {
+                retriever.release()
+            }
+        }
+
+        private fun loadMusicThumbnailAsync(fileData: ImageModel) {
+            binding.image.setImageResource(R.drawable.logo) // Set placeholder immediately
+            scope.launch {
+                val bitmap = withContext(Dispatchers.IO) {
+                    generateMusicThumbnail(fileData.fileUri)
+                }
+                if (bitmap != null) {
+                    fileData.albumArtBitmap = bitmap // Cache the album art
+                    binding.image.load(bitmap) {
+                        crossfade(true)
+                    }
+                } else {
+                    binding.image.setImageResource(R.drawable.logo) // Fallback
+                }
+            }
+        }
+
+        private fun generateMusicThumbnail(uri: Uri): Bitmap? {
+            val retriever = MediaMetadataRetriever()
+            return try {
+                retriever.setDataSource(itemView.context, uri)
+                val data = retriever.embeddedPicture // Get album art as byte array
+                if (data != null) {
+                    BitmapFactory.decodeByteArray(data, 0, data.size) // Convert byte array to Bitmap
+                } else {
+                    null // Return null if no album art is found
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 null
